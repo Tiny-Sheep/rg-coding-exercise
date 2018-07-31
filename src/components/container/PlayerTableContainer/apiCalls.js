@@ -22,7 +22,7 @@ export const fetchPlayers = async () => {
 // Simulate a relatively slow API call
 const fetchADPPromise = new Promise(resolve => {
   setTimeout(() => {
-    resolve(playerData);
+    resolve(adpData);
   }, 1000);
 });
 

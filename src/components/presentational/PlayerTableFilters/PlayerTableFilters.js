@@ -6,7 +6,7 @@ import './PlayerTableFilters.css';
 const PlayerTableFilters = () => {
   return (
     <div className="PlayerTableFilters">
-      <FormGroup>
+      <FormGroup  >
         <Checkbox inline>QB</Checkbox>
         <Checkbox inline>RB</Checkbox>
         <Checkbox inline>WR</Checkbox>

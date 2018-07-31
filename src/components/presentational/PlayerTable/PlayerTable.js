@@ -5,7 +5,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import PlayerRow from '../PlayerRow';
 
+
+
 const PlayerTable = ({ players }) => {
+
   return (
     <Table responsive>
       <thead>
@@ -15,10 +18,11 @@ const PlayerTable = ({ players }) => {
           <th>Team</th>
           <th>Height <FontAwesomeIcon icon="sort" /></th>
           <th>Weight <FontAwesomeIcon icon="sort" /></th>
+          <th>ADP</th>
         </tr>
       </thead>
       <tbody>
-        {players.map(player => <PlayerRow player={player} key={player.id} />)}
+        {players.map((player) =>  <PlayerRow player={player} key={player.id} />)}
       </tbody>
     </Table>
   );
