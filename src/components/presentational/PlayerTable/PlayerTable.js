@@ -7,7 +7,7 @@ import PlayerRow from '../PlayerRow';
 
 
 
-const PlayerTable = ({ players }) => {
+const PlayerTable = ({ players, selectedPositions,falseCount }) => {
 
   return (
     <Table responsive>
@@ -21,9 +21,22 @@ const PlayerTable = ({ players }) => {
           <th>ADP</th>
         </tr>
       </thead>
+      { !falseCount?
       <tbody>
-        {players.map((player) =>  <PlayerRow player={player} key={player.id} />)}
+
+      {players.map((player) =>
+        < PlayerRow player={player} key={player.id} />
+     )}
+      </tbody>:
+
+      <tbody>
+         {players.map((player) => {
+          if (selectedPositions[player.position]) {
+            return <PlayerRow player={player} key={player.id} />
+          }
+        })}
       </tbody>
+    }
     </Table>
   );
 }

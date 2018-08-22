@@ -9,7 +9,12 @@ import Loading from '../../presentational/Loading'
 class PlayerTableContainer extends Component {
   state = {
     players: [],
-
+    selectedPositions: {
+      "QB": false,
+      "RB": false,
+      "WR": false,
+      "TE": false,
+    }
   }
   componentDidMount = async () => {
     const players = await fetchPlayers();
@@ -21,50 +26,55 @@ class PlayerTableContainer extends Component {
     // go through each element in players array
     const adpHash = {};
 
-    adp.forEach(entry=>{
+    adp.forEach(entry => {
       adpHash[entry.id] = entry.averagePick
     })
 
 
     const newPlayers = players.map((player) => {
-      // player.adp = 400
-      // adp.forEach(singleADP => {
-      //   if (singleADP.id === player.id) {
-      //     if (singleADP.averagePick) {
-      //       player.adp = Number(singleADP.averagePick)
-      //     }
-      //   }
-      // })
-      // return player
-      if (adpHash[player.id]){
-        player.adp=Number(adpHash[player.id])
-      }else{
-        player.adp=400
+      if (adpHash[player.id]) {
+        player.adp = Number(adpHash[player.id])
+      } else {
+        player.adp = 400
       }
       return player
     })
-    // check if adp has id
-    // if a match exists i want modify that player object
 
-    // if  one doesnt exist make it 400
-
-    // return the entire list of arrays
     return newPlayers.sort((a, b) => {
       return a.adp - b.adp
     })
   }
 
+  filterTable = (evt) => {
+    const positions = {}
+    positions[evt.target.name] = evt.target.checked
+    this.setState((prevState) => {
+      return { selectedPositions: { ...prevState.selectedPositions, ...positions } }
+    });
+
+  }
+
 
 
   render() {
-    const { players } = this.state;
+    const { players, selectedPositions } = this.state;
+    const falseCount = ((selectedPositions)=>{
+      let i = 0
+      for (const key in selectedPositions){
+        if(selectedPositions[key]){
+          i+=1
+        }
+      }
+      return i
+    })(selectedPositions)
+
 
     return (
 
       players.length ?
-        <div>
-          <PlayerTableFilters />
-          <PlayerTable players={players} />
+      <div>
+          <PlayerTableFilters filterTable={this.filterTable} />
+          <PlayerTable players={players} selectedPositions={selectedPositions} falseCount={falseCount} />
         </div>
         : <Loading />
 
