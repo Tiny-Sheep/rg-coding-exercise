@@ -12,7 +12,7 @@ const PlayerTableFilters = (props) => {
         <Checkbox name='WR' inline>WR</Checkbox>
         <Checkbox name='TE' inline>TE</Checkbox>
       </FormGroup>
-      <FormControl type="text" placeholder="Search by Name" />
+      <FormControl onChange={props.searchTable}type="text" placeholder="Search by Name" />
     </div>
   )
 }

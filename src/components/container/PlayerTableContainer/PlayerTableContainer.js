@@ -9,6 +9,7 @@ import Loading from '../../presentational/Loading'
 class PlayerTableContainer extends Component {
   state = {
     players: [],
+    searchedPlayers:[],
     selectedPositions: {
       "QB": false,
       "RB": false,
@@ -54,15 +55,29 @@ class PlayerTableContainer extends Component {
 
   }
 
+  searchTable = (evt) => {
+    const searchPhrase = evt.target.value.toLowerCase()
+    const searchedPlayer = this.state.players.filter((player) =>
+      player.name.toLowerCase().includes(searchPhrase)
+    )
+    this.setState((prevState) => {
+      return { ...prevState,searchedPlayers:searchedPlayer }
+      })
+    }
+
+
 
 
   render() {
-    const { players, selectedPositions } = this.state;
-    const falseCount = ((selectedPositions)=>{
+    let { players, selectedPositions, searchedPlayers } = this.state;
+    if(searchedPlayers.length>0){
+      players=searchedPlayers
+    }
+    const falseCount = ((selectedPositions) => {
       let i = 0
-      for (const key in selectedPositions){
-        if(selectedPositions[key]){
-          i+=1
+      for (const key in selectedPositions) {
+        if (selectedPositions[key]) {
+          i += 1
         }
       }
       return i
@@ -72,8 +87,8 @@ class PlayerTableContainer extends Component {
     return (
 
       players.length ?
-      <div>
-          <PlayerTableFilters filterTable={this.filterTable} />
+        <div>
+          <PlayerTableFilters filterTable={this.filterTable} searchTable={this.searchTable} />
           <PlayerTable players={players} selectedPositions={selectedPositions} falseCount={falseCount} />
         </div>
         : <Loading />
